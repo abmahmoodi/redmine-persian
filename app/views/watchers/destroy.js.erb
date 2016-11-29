@@ -1,0 +1,3 @@
+<% if @watchables.size == 1 %>
+$('#watchers').html('<%= escape_javascript(render(:partial => 'watchers/watchers', :locals => {:watched => @watchables.first})) %>');
+<% end %>

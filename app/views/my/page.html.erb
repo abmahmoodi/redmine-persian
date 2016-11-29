@@ -1,0 +1,21 @@
+<div class="contextual">
+    <%= link_to l(:label_personalize_page), {:action => 'page_layout'}, :class => 'icon icon-edit' %>
+</div>
+
+<h2><%=l(:label_my_page)%></h2>
+
+<div id="list-top">
+  <%= render_blocks(@blocks['top'], @user) %>
+</div>
+
+<div id="list-left" class="splitcontentleft">
+  <%= render_blocks(@blocks['left'], @user) %>
+</div>
+
+<div id="list-right" class="splitcontentright">
+  <%= render_blocks(@blocks['right'], @user) %>
+</div>
+
+<%= context_menu %>
+
+<% html_title(l(:label_my_page)) -%>

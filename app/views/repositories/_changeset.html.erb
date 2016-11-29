@@ -1,0 +1,40 @@
+<h2><%= l(:label_revision) %> <%= format_revision(@changeset) %></h2>
+
+<div class="details">
+  <h4>
+    <%= avatar(@changeset.user, :size => "24") %>
+    <%= authoring(@changeset.committed_on, @changeset.author) %>
+  </h4>
+  <% if @changeset.scmid.present? || @changeset.parents.present? || @changeset.children.present? %>
+  <ul class="revision-info">
+    <% if @changeset.scmid.present? %>
+      <li>
+        <strong>ID </strong><%= @changeset.scmid %>
+      </li>
+    <% end %>
+    <% if @changeset.parents.present? %>
+      <li>
+        <strong><%= l(:label_parent_revision) %></strong>
+          <%= @changeset.parents.collect{
+                |p| link_to_revision(p, @repository, :text => format_revision(p))
+              }.join(", ").html_safe %>
+      </li>
+    <% end %>
+    <% if @changeset.children.present? %>
+      <li>
+        <strong><%= l(:label_child_revision) %></strong>
+         <%= @changeset.children.collect{
+                |p| link_to_revision(p, @repository, :text => format_revision(p))
+               }.join(", ").html_safe %>
+      </li>
+    <% end %>
+  </ul>
+  <% end %>
+
+</div>
+
+<%= textilizable @changeset.comments %>
+
+<% if @changeset.issues.visible.any? || User.current.allowed_to?(:manage_related_issues, @repository.project) %>
+  <%= render :partial => 'related_issues' %>
+<% end %>

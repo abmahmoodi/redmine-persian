@@ -1,0 +1,25 @@
+<%= call_hook(:view_repositories_show_contextual, { :repository => @repository, :project => @project }) %>
+
+<div class="contextual">
+  <%= render :partial => 'navigation' %>
+</div>
+
+<h2><%= render :partial => 'breadcrumbs', :locals => { :path => @path, :kind => 'file', :revision => @rev } %></h2>
+
+<%= render :partial => 'link_to_functions' %>
+
+<% if Redmine::MimeType.is_type?('image', @path) %>
+  <%= render :partial => 'common/image', :locals => {:path => url_for(:action => 'raw',
+                                                                      :id     => @project,
+                                                                      :repository_id => @repository.identifier_param,
+                                                                      :path   => @path,
+                                                                      :rev    => @rev), :alt => @path} %>
+<% elsif @content %>
+  <%= render :partial => 'common/file', :locals => {:filename => @path, :content => @content} %>
+<% else %>
+  <%= render :partial => 'common/other' %>
+<% end %>
+
+<% content_for :header_tags do %>
+<%= stylesheet_link_tag "scm" %>
+<% end %>

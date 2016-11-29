@@ -1,0 +1,38 @@
+<div class="contextual">
+<%= link_to l(:label_tracker_new), new_tracker_path, :class => 'icon icon-add' %>
+<%= link_to l(:field_summary), fields_trackers_path, :class => 'icon icon-summary' %>
+</div>
+
+<h2><%=l(:label_tracker_plural)%></h2>
+
+<table class="list trackers">
+  <thead><tr>
+  <th><%=l(:label_tracker)%></th>
+  <th></th>
+  <th></th>
+  </tr></thead>
+  <tbody>
+<% for tracker in @trackers %>
+  <tr class="<%= cycle("odd", "even") %>">
+  <td class="name"><%= link_to tracker.name, edit_tracker_path(tracker) %></td>
+  <td>
+    <% unless tracker.workflow_rules.count > 0 %>
+      <span class="icon icon-warning">
+        <%= l(:text_tracker_no_workflow) %> (<%= link_to l(:button_edit), workflows_edit_path(:tracker_id => tracker) %>)
+      </span>
+    <% end %>
+  </td>
+  <td class="buttons">
+    <%= reorder_handle(tracker) %>
+    <%= delete_link tracker_path(tracker) %>
+  </td>
+  </tr>
+<% end %>
+  </tbody>
+</table>
+
+<% html_title(l(:label_tracker_plural)) -%>
+
+<%= javascript_tag do %>
+  $(function() { $("table.trackers tbody").positionedItems(); });
+<% end %>
