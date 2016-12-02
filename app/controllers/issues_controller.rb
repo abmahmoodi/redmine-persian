@@ -447,6 +447,10 @@ class IssuesController < ApplicationController
       end
     end
     @issue.safe_attributes = issue_attributes
+    @issue.start_date = @issue.start_date.to_parsi
+    if @issue.due_date
+      @issue.due_date = @issue.due_date.to_parsi
+    end
     @priorities = IssuePriority.active
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
     true

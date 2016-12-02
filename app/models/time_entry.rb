@@ -41,8 +41,9 @@ class TimeEntry < ActiveRecord::Base
   validates_numericality_of :hours, :allow_nil => true, :message => :invalid
   validates_length_of :comments, :maximum => 1024, :allow_nil => true
   validates :spent_on, :date => true
-  before_validation :set_project_if_nil
+  before_validation :set_project_if_nil,:set_spent_date_gregorian
   validate :validate_time_entry
+
 
   scope :visible, lambda {|*args|
     joins(:project).
@@ -157,4 +158,15 @@ class TimeEntry < ActiveRecord::Base
   def editable_custom_fields(user=nil)
     editable_custom_field_values(user).map(&:custom_field).uniq
   end
+
+  def set_spent_date_gregorian
+    year = self.spent_on ? self.spent_on.year : nil
+    month = self.spent_on ? self.spent_on.month : nil
+    day = self.spent_on ? self.spent_on.day : nil
+    self.spent_on = Parsi::Date.parse("#{year}/#{month}/#{day}").to_gregorian
+    self.tyear = self.spent_on ? self.spent_on.year : nil
+    self.tmonth = self.spent_on ? self.spent_on.month : nil
+    self.tweek = self.spent_on ? Date.civil(self.spent_on.year, self.spent_on.month, self.spent_on.day).cweek : nil
+  end
+  private :set_spent_date_gregorian
 end

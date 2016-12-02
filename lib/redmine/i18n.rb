@@ -68,7 +68,12 @@ module Redmine
       return nil unless date
       options = {}
       options[:format] = Setting.date_format unless Setting.date_format.blank?
-      ::I18n.l(date.to_date, options).to_date.to_parsi
+      ##::I18n.l(date.to_date, options)
+      if options[:format].nil?
+        date.to_date.to_parsi
+      else
+        date.to_date.to_parsi.strftime(options[:format])
+      end
     end
 
     def format_time(time, include_date=true, user=nil)

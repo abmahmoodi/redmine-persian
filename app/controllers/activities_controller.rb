@@ -26,7 +26,6 @@ class ActivitiesController < ApplicationController
     if params[:from]
       begin; @date_to = params[:from].to_date + 1; rescue; end
     end
-
     @date_to ||= User.current.today + 1
     @date_from = @date_to - @days
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
@@ -53,7 +52,7 @@ class ActivitiesController < ApplicationController
       end
     end
 
-    events = @activity.events(@date_from, @date_to)
+    events = @activity.events(@date_from.to_gregorian, @date_to.to_gregorian)
 
     if events.empty? || stale?(:etag => [@activity.scope, @date_to, @date_from, @with_subprojects, @author, events.first, events.size, User.current, current_language])
       respond_to do |format|

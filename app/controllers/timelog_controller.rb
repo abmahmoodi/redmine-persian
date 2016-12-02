@@ -145,6 +145,7 @@ class TimelogController < ApplicationController
 
   def edit
     @time_entry.safe_attributes = params[:time_entry]
+    @time_entry.spent_on = @time_entry.spent_on.to_parsi
   end
 
   def update
