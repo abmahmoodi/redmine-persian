@@ -164,6 +164,7 @@ class IssuesController < ApplicationController
   end
 
   def edit
+	p '111111111111111111111111111111111111111111111'
     return unless update_issue_from_params
 
     respond_to do |format|

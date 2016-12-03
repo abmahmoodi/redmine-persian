@@ -105,7 +105,7 @@ class Issue < ActiveRecord::Base
   }
 
   before_validation :clear_disabled_fields,:to_gregorian_start_and_due_date
-  before_update :to_gregorian_start_and_due_date
+  # before_update :to_gregorian_start_and_due_date
   before_create :default_assign
   before_save :close_duplicates, :update_done_ratio_from_issue_status,
               :force_updated_on_change, :update_closed_on, :set_assigned_to_was
@@ -1740,6 +1740,7 @@ class Issue < ActiveRecord::Base
   end
 
   def to_gregorian_start_and_due_date
+    p '22222222222222222222'
     s_year = self.start_date ? self.start_date.year : nil
     s_month = self.start_date ? self.start_date.month : nil
     s_day = self.start_date ? self.start_date.day : nil
