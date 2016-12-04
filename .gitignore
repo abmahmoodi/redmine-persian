@@ -39,4 +39,5 @@
 /.bundle
 /Gemfile.lock
 /Gemfile.local
+.idea/
 
