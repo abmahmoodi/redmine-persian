@@ -24,7 +24,7 @@
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
       <user-name>postgres</user-name>
       <user-password>df9b</user-password>
-      <resolve-scope>redmine_development:public,postgres</resolve-scope>
+      <resolve-scope>redmine_development:postgres,public</resolve-scope>
     </data-source>
   </component>
 </project>
