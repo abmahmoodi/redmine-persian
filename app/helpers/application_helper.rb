@@ -1201,7 +1201,16 @@ module ApplicationHelper
 
   def calendar_for(field_id)
     include_calendar_headers_tags
-    javascript_tag("$(function() { $('##{field_id}').addClass('date').datepickerFallback(datepickerOptions); });")
+    javascript_tag("$(function() { $('##{field_id}').attr({'data-date' : '','data-date-format' : 'YYYY/MM/DD'}) });")
+    javascript_tag (
+        "$('##{field_id}').on('change', function() {" +
+        "this.setAttribute(" +
+            "'data-date'," +
+            "moment(this.value, 'YYYY-MM-DD')" +
+                ".format( this.getAttribute('data-date-format') ))" +
+        "}).trigger('change');" +
+        "$('##{field_id}').pDatepicker({format : 'YYYY-MM-DD'});"
+    )
   end
 
   def include_calendar_headers_tags
@@ -1327,6 +1336,9 @@ module ApplicationHelper
   # Returns the javascript tags that are included in the html layout head
   def javascript_heads
     tags = javascript_include_tag('jquery-1.11.1-ui-1.11.0-ujs-3.1.4', 'application', 'responsive')
+    tags << '<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>'.html_safe
+    tags << javascript_include_tag('persian-date-0.1.8.min')
+    tags << javascript_include_tag('persian-datepicker-0.4.5.min')
     unless User.current.pref.warn_on_leaving_unsaved == '0'
       tags << "\n".html_safe + javascript_tag("$(window).load(function(){ warnLeavingUnsaved('#{escape_javascript l(:text_warn_on_leaving_unsaved)}'); });")
     end

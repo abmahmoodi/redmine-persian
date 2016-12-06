@@ -850,7 +850,7 @@ class Issue < ActiveRecord::Base
 
   # Returns true if the issue is overdue
   def overdue?
-    due_date.present? && (due_date < User.current.today.to_gregorian) && !closed?
+    due_date.present? && (due_date < User.current.today) && !closed?
   end
 
   # Is the amount of work done less than it should for the due date
