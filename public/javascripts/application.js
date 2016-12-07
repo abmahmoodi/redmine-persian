@@ -591,7 +591,7 @@ $(document).ready(function(){
   $(document).click(function(e){
     if ($(e.target).closest(".drdn").length < 1) {
       $(".drdn.expanded").removeClass("expanded");
-    } 
+    }
   });
 
   observeSearchfield('projects-quick-search', null, $('#projects-quick-search').data('automcomplete-url'));

@@ -330,7 +330,7 @@ module ApplicationHelper
       content_tag 'p', l(:label_no_data), :class => "nodata"
     end
   end
- 
+
   # Returns an array of projects that are displayed in the quick-jump box
   def projects_for_jump_box(user=User.current)
     if user.logged?
@@ -358,7 +358,7 @@ module ApplicationHelper
       trigger = content_tag('span', text, :class => 'drdn-trigger')
       q = text_field_tag('q', '', :id => 'projects-quick-search', :class => 'autocomplete', :data => {:automcomplete_url => projects_path(:format => 'js')})
       content = content_tag('div',
-            content_tag('div', q, :class => 'quick-search') + 
+            content_tag('div', q, :class => 'quick-search') +
             content_tag('div', render_projects_for_jump_box(projects, @project), :class => 'drdn-items selection'),
           :class => 'drdn-content'
         )
@@ -1199,10 +1199,18 @@ module ApplicationHelper
     nil
   end
 
+  def set_attr(field_id)
+    javascript_tag("$('##{field_id}').attr({'data-date-format': 'YYYY/MM/DD'});")
+  end
+  
   def calendar_for(field_id)
-    include_calendar_headers_tags
-    javascript_tag("$(function() { $('##{field_id}').attr({'data-date' : '','data-date-format' : 'YYYY/MM/DD'}) });")
+    # include_calendar_headers_tags
+    # javascript_tag("$('##{field_id}').attr({'data-date-format': 'YYYY/MM/DD'});")
+    # javascript_tag("console.log('1')")
+
+
     javascript_tag (
+
         "$('##{field_id}').on('change', function() {" +
         "this.setAttribute(" +
             "'data-date'," +
