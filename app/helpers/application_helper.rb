@@ -1199,18 +1199,13 @@ module ApplicationHelper
     nil
   end
 
-  def set_attr(field_id)
-    javascript_tag("$('##{field_id}').attr({'data-date-format': 'YYYY/MM/DD'});")
-  end
-  
   def calendar_for(field_id)
     # include_calendar_headers_tags
     # javascript_tag("$('##{field_id}').attr({'data-date-format': 'YYYY/MM/DD'});")
     # javascript_tag("console.log('1')")
 
-
     javascript_tag (
-
+        "$('##{field_id}').attr({'data-date-format': 'YYYY-MM-DD'});" +
         "$('##{field_id}').on('change', function() {" +
         "this.setAttribute(" +
             "'data-date'," +
