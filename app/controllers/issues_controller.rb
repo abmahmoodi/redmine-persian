@@ -427,11 +427,6 @@ class IssuesController < ApplicationController
   # Used by #edit and #update to set some common instance variables
   # from the params
   def update_issue_from_params
-    @issue.start_date = @issue.start_date.to_parsi
-    if @issue.due_date
-      @issue.due_date = @issue.due_date.to_parsi
-    end
-
     @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
     if params[:time_entry]
       @time_entry.safe_attributes = params[:time_entry]

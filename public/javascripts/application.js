@@ -194,9 +194,18 @@ function buildFilterRow(field, operator, values) {
       ' <span style="display:none;"><input type="date" name="v['+field+'][]" id="values_'+fieldId+'_2" size="10" class="value date_value" /></span>' +
       ' <span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'" size="3" class="value" /> '+labelDayPlural+'</span>'
     );
-    $('#values_'+fieldId+'_1').val(values[0]).datepickerFallback(datepickerOptions);
-    $('#values_'+fieldId+'_2').val(values[1]).datepickerFallback(datepickerOptions);
-    $('#values_'+fieldId).val(values[0]);
+    // $('#values_'+fieldId+'_1').val(values[0]).datepickerFallback(datepickerOptions);
+    // $('#values_'+fieldId+'_2').val(values[1]).datepickerFallback(datepickerOptions);
+    // $('#values_'+fieldId).val(values[0]);
+    $('#values_'+fieldId+'_1').attr({"data-date-format": "YYYY-MM-DD"});
+    $('#values_'+fieldId+'_1').on('change', function() {
+    this.setAttribute('data-date', moment(this.value, 'YYYY-MM-DD').format( this.getAttribute('data-date-format') ))}).trigger('change');
+    $('#values_'+fieldId+'_1').pDatepicker({format : 'YYYY-MM-DD'});
+
+    $('#values_'+fieldId+'_2').attr({"data-date-format": "YYYY-MM-DD"});
+    $('#values_'+fieldId+'_2').on('change', function() {
+      this.setAttribute('data-date', moment(this.value, 'YYYY-MM-DD').format( this.getAttribute('data-date-format') ))}).trigger('change');
+    $('#values_'+fieldId+'_2').pDatepicker({format : 'YYYY-MM-DD'});
     break;
   case "string":
   case "text":
@@ -591,7 +600,7 @@ $(document).ready(function(){
   $(document).click(function(e){
     if ($(e.target).closest(".drdn").length < 1) {
       $(".drdn.expanded").removeClass("expanded");
-    } 
+    }
   });
 
   observeSearchfield('projects-quick-search', null, $('#projects-quick-search').data('automcomplete-url'));

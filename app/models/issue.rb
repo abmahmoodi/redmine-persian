@@ -850,7 +850,7 @@ class Issue < ActiveRecord::Base
 
   # Returns true if the issue is overdue
   def overdue?
-    due_date.present? && (due_date < User.current.today.to_gregorian) && !closed?
+    due_date.present? && (due_date < User.current.today) && !closed?
   end
 
   # Is the amount of work done less than it should for the due date
@@ -1740,7 +1740,6 @@ class Issue < ActiveRecord::Base
   end
 
   def to_gregorian_start_and_due_date
-    p '22222222222222222222'
     s_year = self.start_date ? self.start_date.year : nil
     s_month = self.start_date ? self.start_date.month : nil
     s_day = self.start_date ? self.start_date.day : nil

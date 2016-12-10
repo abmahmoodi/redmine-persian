@@ -511,9 +511,9 @@ class User < Principal
   # Returns the current day according to user's time zone
   def today
     if time_zone.nil?
-      Date.today.to_parsi
+      Date.today
     else
-      time_zone.today.to_parsi
+      time_zone.today
     end
   end
 
@@ -585,7 +585,7 @@ class User < Principal
         end
       end
     end
-    
+
     hash.each do |role, projects|
       projects.uniq!
     end

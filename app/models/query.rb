@@ -330,6 +330,35 @@ class Query < ActiveRecord::Base
     @is_for_all = project.nil?
   end
 
+  def valid_persian_date?(str_date)
+    nums = str_date.split('-')
+    if (nums.length == 3)
+      if (nums[0].length == 4) && (nums[1].length == 2) && (nums[2].length == 2)
+        return true
+      else
+          return false
+      end
+    else
+      return false
+    end
+  end
+
+  def convert_date_value_filter_to_gregorian(values)
+    converted_value = []
+    if not values.nil?
+      values.each do |value|
+        if valid_persian_date?(value)
+          splited_date = value.split('-')
+          value = Parsi::Date.parse("#{splited_date[0]}/#{splited_date[1]}/#{splited_date[2]}").to_gregorian.strftime('%Y-%m-%d')
+          converted_value << value
+        else
+          converted_value << value
+        end
+      end
+    end 
+    converted_value
+  end
+
   # Builds the query from the given params
   def build_from_params(params)
     if params[:fields] || params[:f]
@@ -470,6 +499,7 @@ class Query < ActiveRecord::Base
     # check if field is defined as an available filter
     if available_filters.has_key? field
       filter_options = available_filters[field]
+      values = convert_date_value_filter_to_gregorian(values)
       filters[field] = {:operator => operator, :values => (values || [''])}
     end
   end

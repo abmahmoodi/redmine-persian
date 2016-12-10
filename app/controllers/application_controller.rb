@@ -321,10 +321,6 @@ class ApplicationController < ActionController::Base
     # Issue.visible.find(...) can not be used to redirect user to the login form
     # if the issue actually exists but requires authentication
     @issue = Issue.find(params[:id])
-    @issue.start_date = @issue.start_date.to_parsi
-    if @issue.due_date
-      @issue.due_date = @issue.due_date.to_parsi
-    end
     raise Unauthorized unless @issue.visible?
     @project = @issue.project
   rescue ActiveRecord::RecordNotFound

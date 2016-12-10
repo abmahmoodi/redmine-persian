@@ -330,7 +330,7 @@ module ApplicationHelper
       content_tag 'p', l(:label_no_data), :class => "nodata"
     end
   end
- 
+
   # Returns an array of projects that are displayed in the quick-jump box
   def projects_for_jump_box(user=User.current)
     if user.logged?
@@ -358,7 +358,7 @@ module ApplicationHelper
       trigger = content_tag('span', text, :class => 'drdn-trigger')
       q = text_field_tag('q', '', :id => 'projects-quick-search', :class => 'autocomplete', :data => {:automcomplete_url => projects_path(:format => 'js')})
       content = content_tag('div',
-            content_tag('div', q, :class => 'quick-search') + 
+            content_tag('div', q, :class => 'quick-search') +
             content_tag('div', render_projects_for_jump_box(projects, @project), :class => 'drdn-items selection'),
           :class => 'drdn-content'
         )
@@ -1200,8 +1200,20 @@ module ApplicationHelper
   end
 
   def calendar_for(field_id)
-    include_calendar_headers_tags
-    javascript_tag("$(function() { $('##{field_id}').addClass('date').datepickerFallback(datepickerOptions); });")
+    # include_calendar_headers_tags
+    # javascript_tag("$('##{field_id}').attr({'data-date-format': 'YYYY/MM/DD'});")
+    # javascript_tag("console.log('1')")
+
+    javascript_tag (
+        "$('##{field_id}').attr({'data-date-format': 'YYYY-MM-DD'});" +
+        "$('##{field_id}').on('change', function() {" +
+        "this.setAttribute(" +
+            "'data-date'," +
+            "moment(this.value, 'YYYY-MM-DD')" +
+                ".format( this.getAttribute('data-date-format') ))" +
+        "}).trigger('change');" +
+        "$('##{field_id}').pDatepicker({format : 'YYYY-MM-DD'});"
+    )
   end
 
   def include_calendar_headers_tags
@@ -1327,6 +1339,9 @@ module ApplicationHelper
   # Returns the javascript tags that are included in the html layout head
   def javascript_heads
     tags = javascript_include_tag('jquery-1.11.1-ui-1.11.0-ujs-3.1.4', 'application', 'responsive')
+    tags << '<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>'.html_safe
+    tags << javascript_include_tag('persian-date-0.1.8.min')
+    tags << javascript_include_tag('persian-datepicker-0.4.5.min')
     unless User.current.pref.warn_on_leaving_unsaved == '0'
       tags << "\n".html_safe + javascript_tag("$(window).load(function(){ warnLeavingUnsaved('#{escape_javascript l(:text_warn_on_leaving_unsaved)}'); });")
     end
