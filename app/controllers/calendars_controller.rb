@@ -29,24 +29,29 @@ class CalendarsController < ApplicationController
   include SortHelper
 
   def show
-    if params[:year] and params[:year].to_i > 1900
+    if params[:year] and params[:year].to_i > 1300
       @year = params[:year].to_i
       if params[:month] and params[:month].to_i > 0 and params[:month].to_i < 13
         @month = params[:month].to_i
       end
     end
-    @year ||= User.current.today.year
-    @month ||= User.current.today.month
 
-    @calendar = Redmine::Helpers::Calendar.new(Date.civil(@year, @month, 1), current_language, :month)
+    @year ||= User.current.today.to_parsi.year
+    @month ||= User.current.today.to_parsi.month
+
+    @calendar = Redmine::Helpers::Calendar.new(Parsi::Date.parse("#{@year}/#{@month}/01"), current_language, :month)
     retrieve_query
     @query.group_by = nil
     if @query.valid?
       events = []
+
+      startdt_gr = Parsi::Date.parse("#{@calendar.startdt.year}/#{@calendar.startdt.month}/#{@calendar.startdt.day}").to_gregorian
+      enddt_gr = Parsi::Date.parse("#{@calendar.enddt.year}/#{@calendar.enddt.month}/#{@calendar.enddt.day}").to_gregorian
+
       events += @query.issues(:include => [:tracker, :assigned_to, :priority],
-                              :conditions => ["((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?))", @calendar.startdt, @calendar.enddt, @calendar.startdt, @calendar.enddt]
+                              :conditions => ["((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?))", startdt_gr, enddt_gr, startdt_gr, enddt_gr]
                               )
-      events += @query.versions(:conditions => ["effective_date BETWEEN ? AND ?", @calendar.startdt, @calendar.enddt])
+      events += @query.versions(:conditions => ["effective_date BETWEEN ? AND ?", startdt_gr, enddt_gr])
 
       @calendar.events = events
     end

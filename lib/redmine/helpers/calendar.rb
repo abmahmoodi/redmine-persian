@@ -31,7 +31,7 @@ module Redmine
         set_language_if_valid lang
         case period
         when :month
-          @startdt = Date.civil(date.year, date.month, 1)
+          @startdt = date
           @enddt = (@startdt >> 1)-1
           # starts from the first day of the week
           @startdt = @startdt - (@startdt.cwday - first_wday)%7
@@ -48,8 +48,8 @@ module Redmine
       # Sets calendar events
       def events=(events)
         @events = events
-        @ending_events_by_days = @events.group_by {|event| event.due_date}
-        @starting_events_by_days = @events.group_by {|event| event.start_date}
+        @ending_events_by_days = @events.group_by {|event| event.due_date.to_parsi}
+        @starting_events_by_days = @events.group_by {|event| event.start_date.to_parsi}
       end
 
       # Returns events for the given day
