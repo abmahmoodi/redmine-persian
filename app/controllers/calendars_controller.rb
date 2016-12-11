@@ -47,7 +47,7 @@ class CalendarsController < ApplicationController
 
       startdt_gr = Parsi::Date.parse("#{@calendar.startdt.year}/#{@calendar.startdt.month}/#{@calendar.startdt.day}").to_gregorian
       enddt_gr = Parsi::Date.parse("#{@calendar.enddt.year}/#{@calendar.enddt.month}/#{@calendar.enddt.day}").to_gregorian
-
+     
       events += @query.issues(:include => [:tracker, :assigned_to, :priority],
                               :conditions => ["((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?))", startdt_gr, enddt_gr, startdt_gr, enddt_gr]
                               )
