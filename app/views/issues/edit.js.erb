@@ -1,3 +1,8 @@
+var start_date = $('#issue_start_date').val();
+var g_start_date = $('#issue_start_date').attr('value');
+var due_date = $('#issue_due_date').val();
+var g_due_date = $('#issue_due_date').attr('value');
+
 replaceIssueFormWith('<%= escape_javascript(render :partial => 'form') %>');
 
 <% if User.current.allowed_to?(:log_time, @issue.project) %>
@@ -5,3 +10,8 @@ replaceIssueFormWith('<%= escape_javascript(render :partial => 'form') %>');
 <% else %>
   $('#log_time').hide();
 <% end %>
+
+$('#issue_start_date').attr('data-date', start_date);
+$('#issue_start_date').attr('value', g_start_date);  
+$('#issue_due_date').attr('data-date', due_date);
+$('#issue_due_date').attr('value', g_due_date);  
