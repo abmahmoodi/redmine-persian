@@ -14,8 +14,8 @@ fa:
     abbr_day_names: [یک, دو, سه, چهار, پنج, جمعه, شنبه]
 
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: [~, ژانویه, فوریه, مارس, آوریل, مه, ژوئن, ژوئیه, اوت, سپتامبر, اکتبر, نوامبر, دسامبر]
-    abbr_month_names: [~, ژان, فور, مار, آور, مه, ژوئن, ژوئیه, اوت, سپت, اکت, نوا, دسا]
+    month_names: [~, فروردین, اردیبهشت, خرداد, تیر, مرداد, شهریور, مهر, آبان, آذر, دی, بهمن, اسفند]
+    abbr_month_names: [~, فرو, ارد, خرد, تیر, مرد, شهر, مهر, آبا, آذر, دی, بهم, اسف]
     # Used in date_select and datime_select.
     order:
       - :year

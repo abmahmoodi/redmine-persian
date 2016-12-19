@@ -59,8 +59,8 @@ module Redmine
             @month_from = 1
           end
         else
-          @month_from ||= User.current.today.month
-          @year_from ||= User.current.today.year
+          @month_from ||= User.current.today.to_parsi.month
+          @year_from ||= User.current.today.to_parsi.year
         end
         zoom = (options[:zoom] || User.current.pref[:gantt_zoom]).to_i
         @zoom = (zoom > 0 && zoom < 5) ? zoom : 2
@@ -72,7 +72,7 @@ module Redmine
           User.current.pref[:gantt_zoom], User.current.pref[:gantt_months] = @zoom, @months
           User.current.preference.save
         end
-        @date_from = Date.civil(@year_from, @month_from, 1)
+        @date_from = Parsi::Date.parse("#{@year_from}/#{@month_from}/01")
         @date_to = (@date_from >> @months) - 1
         @subjects = ''
         @lines = ''
@@ -325,6 +325,8 @@ module Redmine
       end
 
       def line(start_date, end_date, done_ratio, markers, label, options, object=nil)
+        start_date = start_date.to_parsi
+        end_date = end_date.to_parsi
         options[:zoom] ||= 1
         options[:g_width] ||= (self.date_to - self.date_from + 1) * options[:zoom]
         coords = coordinates(start_date, end_date, done_ratio, options[:zoom])
@@ -428,9 +430,9 @@ module Redmine
         lines(:image => gc, :top => top, :zoom => zoom,
               :subject_width => subject_width, :format => :image)
         # today red line
-        if User.current.today >= @date_from and User.current.today <= date_to
+        if User.current.today.to_parsi >= @date_from and User.current.today.to_parsi <= date_to
           gc.stroke('red')
-          x = (User.current.today - @date_from + 1) * zoom + subject_width
+          x = (User.current.today.to_parsi - @date_from + 1) * zoom + subject_width
           gc.line(x, headers_height, x, headers_height + g_height - 1)
         end
         gc.draw(imgl)
@@ -442,7 +444,7 @@ module Redmine
         pdf = ::Redmine::Export::PDF::ITCPDF.new(current_language)
         pdf.SetTitle("#{l(:label_gantt)} #{project}")
         pdf.alias_nb_pages
-        pdf.footer_date = format_date(User.current.today)
+        pdf.footer_date = format_date(User.current.today.to_parsi)
         pdf.AddPage("L")
         pdf.SetFontStyle('B', 12)
         pdf.SetX(15)
@@ -592,8 +594,8 @@ module Redmine
                 coords[:bar_progress_end] = self.date_to - self.date_from + 1
               end
             end
-            if progress_date < User.current.today
-              late_date = [User.current.today, end_date].min
+            if progress_date < User.current.today.to_parsi
+              late_date = [User.current.today.to_parsi, end_date].min
               if late_date > self.date_from && late_date > start_date
                 if late_date < self.date_to
                   coords[:bar_late_end] = late_date - self.date_from + 1
@@ -654,7 +656,7 @@ module Redmine
           css_classes << ' issue-closed' if issue.closed?
           if issue.start_date && issue.due_before && issue.done_ratio
             progress_date = calc_progress_date(issue.start_date,
-                                               issue.due_before, issue.done_ratio)
+                                               issue.due_before, issue.done_ratio).to_parsi
             css_classes << ' behind-start-date' if progress_date < self.date_from
             css_classes << ' over-end-date' if progress_date > self.date_to
           end
