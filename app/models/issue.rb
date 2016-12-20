@@ -1743,6 +1743,9 @@ class Issue < ActiveRecord::Base
     s_year = self.start_date ? self.start_date.year : nil
     s_month = self.start_date ? self.start_date.month : nil
     s_day = self.start_date ? self.start_date.day : nil
+    p '11111111111111111111111111111'
+    p  self.start_date
+    p "#{s_year}/#{s_month}/#{s_day}"
     self.start_date = Parsi::Date.parse("#{s_year}/#{s_month}/#{s_day}").to_gregorian
     d_year = self.due_date ? self.due_date.year : nil
     d_month = self.due_date ? self.due_date.month : nil
