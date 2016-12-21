@@ -48,7 +48,7 @@ module Redmine
       # Sets calendar events
       def events=(events)
         @events = events
-        @ending_events_by_days = @events.group_by {|event| event.due_date.to_parsi}
+        @ending_events_by_days = @events.group_by {|event| event.due_date.to_parsi unless event.due_date.nil?}
         @starting_events_by_days = @events.group_by {|event| event.start_date.to_parsi}
       end
 
