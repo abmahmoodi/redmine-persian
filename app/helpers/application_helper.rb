@@ -1212,7 +1212,8 @@ module ApplicationHelper
             "moment(this.value, 'YYYY-MM-DD')" +
                 ".format( this.getAttribute('data-date-format') ))" +
         "}).trigger('change');" +
-        "$('##{field_id}').pDatepicker({format : 'YYYY-MM-DD'});"
+        "$('##{field_id}').pDatepicker({format : 'YYYY-MM-DD'});" +
+        "$('.datepicker-plot-area').css('direction', 'ltr');"
     )
   end
 
