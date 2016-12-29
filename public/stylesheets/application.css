@@ -1,7 +1,42 @@
-html {overflow-y:scroll;}
-body { font-family: Verdana, sans-serif; font-size: 12px; color:#333; margin: 0; padding: 0; min-width: 900px; }
+@font-face {
+  font-family: 'BKoodakBold';
+  src: url('../fonts/BKoodakBold.eot?#') format('eot'),  /* IE6–8 */
+  url('../fonts/BKoodakBold.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+  url('../fonts/BKoodakBold.ttf') format('truetype');  /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+}
 
-h1, h2, h3, h4 {font-family: "Trebuchet MS", Verdana, sans-serif;padding: 2px 10px 1px 0px;margin: 0 0 10px 0;}
+@font-face {
+  font-family: 'BHoma';
+  src: url('../fonts/BHoma.eot?#') format('eot'),  /* IE6–8 */
+  url('../fonts/BHoma.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+  url('../fonts/BHoma.ttf') format('truetype');  /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+}
+
+@font-face {
+  font-family: 'BRoya';
+  src: url('../fonts/BRoya.eot?#') format('eot'),  /* IE6–8 */
+  url('../fonts/BRoya.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+  url('../fonts/BRoya.ttf') format('truetype');  /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+}
+
+@font-face {
+  font-family: 'bmitra';
+  src: url('../fonts/BMitra.eot?#') format('eot'),  /* IE6–8 */
+  url('../fonts/BMitra.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+  url('../fonts/BMitra.ttf') format('truetype');  /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+}
+
+@font-face {
+  font-family: 'samim';
+  src: url('../fonts/Samim.eot?#') format('eot'),  /* IE6–8 */
+  url('../fonts/Samim.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+  url('../fonts/Samim.ttf') format('truetype');  /* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+}
+
+html {overflow-y:scroll;}
+body { font-family: samim, sans-serif; font-size: 12px; color:#333; margin: 0; padding: 0; min-width: 900px; }
+
+h1, h2, h3, h4 {font-family: "samim", Verdana, sans-serif;padding: 2px 10px 1px 0px;margin: 0 0 10px 0;}
 #content h1, h2, h3, h4 {color: #555;}
 h2, .wiki h1 {font-size: 20px;}
 h3, .wiki h2 {font-size: 16px;}
@@ -1268,7 +1303,7 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 .icon-document { background-image: url(../images/document.png); }
 .icon-project { background-image: url(../images/projects.png); }
 .icon-add-bullet { background-image: url(../images/bullet_add.png); }
-.icon-shared { background-image: url(../images/link.png) };
+.icon-shared { background-image: url(../images/link.png); }
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }
@@ -1453,4 +1488,9 @@ color: #555; text-shadow: 1px 1px 0 #fff;
   width:1px;
   height:1px;
   overflow:hidden;
+}
+
+input, textarea, select {
+  font-family: samim, sans-serif;
+
 }
