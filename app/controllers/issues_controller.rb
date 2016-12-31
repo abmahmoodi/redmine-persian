@@ -302,8 +302,8 @@ class IssuesController < ApplicationController
 
     @issues.each do |orig_issue|
       orig_issue.reload
-			orig_issue.start_date = orig_issue.start_date.to_parsi
-			orig_issue.due_date = orig_issue.due_date.to_parsi
+			orig_issue.start_date = orig_issue.start_date.to_parsi			
+			orig_issue.due_date = orig_issue.due_date.to_parsi unless orig_issue.due_date.nil?
       if @copy
         issue = orig_issue.copy({},
           :attachments => copy_attachments,
