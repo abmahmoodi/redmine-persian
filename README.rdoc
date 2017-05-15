@@ -4,4 +4,4 @@ Redmine is a flexible project management web application written using Ruby on R
 
 More details can be found in the doc directory or on the official website http://www.redmine.org
 
-We have add Jalali calendar and Persian fonts in redmine. 
+Jalali calendar and Persian fonts in redmine added. 
