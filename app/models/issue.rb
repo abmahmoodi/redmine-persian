@@ -104,7 +104,7 @@ class Issue < ActiveRecord::Base
     ids.any? ? where(:assigned_to_id => ids) : none
   }
 
-  before_validation :clear_disabled_fields,:to_gregorian_start_and_due_date
+  before_validation :clear_disabled_fields #,:to_gregorian_start_and_due_date
   # before_update :to_gregorian_start_and_due_date
   before_create :default_assign
   before_save :close_duplicates, :update_done_ratio_from_issue_status,
@@ -1739,19 +1739,19 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  def to_gregorian_start_and_due_date
-    s_year = self.start_date ? self.start_date.year : nil
-    s_month = self.start_date ? self.start_date.month : nil
-    s_day = self.start_date ? self.start_date.day : nil
-    self.start_date = Parsi::Date.parse("#{s_year}/#{s_month}/#{s_day}").to_gregorian
-    d_year = self.due_date ? self.due_date.year : nil
-    d_month = self.due_date ? self.due_date.month : nil
-    d_day = self.due_date ? self.due_date.day : nil
-    if d_year.nil?
-      self.due_date = nil
-    else
-      self.due_date = Parsi::Date.parse("#{d_year}/#{d_month}/#{d_day}").to_gregorian
-    end
-  end
-  private :to_gregorian_start_and_due_date
+  # def to_gregorian_start_and_due_date
+  #   s_year = self.start_date ? self.start_date.year : nil
+  #   s_month = self.start_date ? self.start_date.month : nil
+  #   s_day = self.start_date ? self.start_date.day : nil
+  #   self.start_date = Parsi::Date.parse("#{s_year}/#{s_month}/#{s_day}").to_gregorian
+  #   d_year = self.due_date ? self.due_date.year : nil
+  #   d_month = self.due_date ? self.due_date.month : nil
+  #   d_day = self.due_date ? self.due_date.day : nil
+  #   if d_year.nil?
+  #     self.due_date = nil
+  #   else
+  #     self.due_date = Parsi::Date.parse("#{d_year}/#{d_month}/#{d_day}").to_gregorian
+  #   end
+  # end
+  # private :to_gregorian_start_and_due_date
 end

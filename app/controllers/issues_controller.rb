@@ -133,6 +133,12 @@ class IssuesController < ApplicationController
   end
 
   def create
+    params[:issue][:start_date] = params[:issue][:start_date].to_s != '' ? "#{Rw::JalaliToGregorian.call(date: params[:issue][:start_date]).result} #{Time.now}".to_datetime : nil
+    params[:issue][:due_date] = params[:issue][:due_date].to_s != '' ? "#{Rw::JalaliToGregorian.call(date: params[:issue][:due_date]).result} #{Time.now}".to_datetime : nil
+
+    @issue.start_date = params[:issue][:start_date]
+    @issue.due_date = params[:issue][:due_date]
+
     unless User.current.allowed_to?(:add_issues, @issue.project, :global => true)
       raise ::Unauthorized
     end
@@ -174,6 +180,13 @@ class IssuesController < ApplicationController
 
   def update
     return unless update_issue_from_params
+
+    params[:issue][:start_date] = params[:issue][:start_date].to_s != '' ? "#{Rw::JalaliToGregorian.call(date: params[:issue][:start_date]).result} #{Time.now}".to_datetime : nil
+    params[:issue][:due_date] = params[:issue][:due_date].to_s != '' ? "#{Rw::JalaliToGregorian.call(date: params[:issue][:due_date]).result} #{Time.now}".to_datetime : nil
+
+    @issue.start_date = params[:issue][:start_date]
+    @issue.due_date = params[:issue][:due_date]
+
     @issue.save_attachments(params[:attachments] || (params[:issue] && params[:issue][:uploads]))
     saved = false
     begin
